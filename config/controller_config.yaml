@@ -1,0 +1,38 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 1  # H
+
+    # Deffine controller names and types:
+    joint_state_broadcaster: 
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    #gripper_controller:
+    #  type: forward_command_controller/ForwardCommandController
+
+
+# Deffine what each controller manipulates
+arm_controller:
+  ros__parameters:
+    joints:
+      - arm_base_joint
+      - arm_1_joint
+      - arm_2_joint
+      - wrist_joint
+      - gripper_joint
+
+    command_interfaces:
+      - position
+
+    state_interfaces:
+      - position
+      - velocity
+ 
+# gripper_controller:
+#   ros__parameters:
+#     joints:
+#       - JOINT_NAME
+
+#     interface_name: position

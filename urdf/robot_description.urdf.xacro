@@ -1,0 +1,255 @@
+<?xml version="1.0" ?>
+
+<robot name="ELE306ProsjektBåt" xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:include filename="$(find ELE306Prosjekt)/urdf/common_macros.xacro" />
+    <xacro:include filename="$(find ELE306Prosjekt)/urdf/robot_control.gazebo.xacro" />
+    <!-- CTRL + SHIFT + 7 to comment/uncomment marked code! -->
+        <!-- <gazebo>
+            <static>true</static>
+        </gazebo> -->
+    <xacro:property name="density_pla" value="600" />
+
+
+    <!--############################### -->
+    <!-- MOBILE BOAT PLATFORM -->
+    <!--############################### -->
+
+    <link name="boat_footprint"/>
+
+    <!-- MOBILE BOAT BASE -->
+    <!-- ==================================== -->
+
+    <joint name="base_joint" type="fixed">
+        <parent link="boat_footprint"/>
+        <child link="mobile_boat_link" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <link name="mobile_boat_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="$(find ELE306Prosjekt)/meshes/BoatVisualMesh.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="$(find ELE306Prosjekt)/meshes/BoatColitionMesh.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_box length="1.0" width="0.400" height="0.300" density="${density_pla}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <!-- ARM BASE -->
+    <!-- ==================================== -->
+
+    <joint type="continuous" name="arm_base_joint">
+        <origin xyz="0.2 0 0.3" rpy="0 0 0"/>
+        <child link="arm_base_link"/>
+        <parent link="mobile_boat_link"/>
+        <axis xyz="0 0 1" rpy="0 0 0"/>
+        <limit effort="1000" velocity="1000"/>
+        <dynamics damping="0.7" friction="100.0"/>
+    </joint>
+
+    <link name="arm_base_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="$(find ELE306Prosjekt)/meshes/BaseJoint.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 ${0.25/2}" rpy="0 0 0"/>
+            <geometry>
+                <cylinder length="0.25" radius="${0.1/2}" />
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder radius="${0.1/2}" length="0.2" density="${density_pla}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <!-- LEFT WHEEL -->
+    <!-- ==================================== -->
+
+    <joint type="continuous" name="left_wheel_joint">
+        <origin xyz="0 ${0.2 + 0.1 / 2} 0.25" rpy="-${pi/2} 0 0"/>
+        <child link="left_wheel_link"/>
+        <parent link="mobile_boat_link"/>
+        <axis xyz="0 0 1" rpy="0 0 0"/>
+        <limit effort="1000" velocity="1000"/>
+        <dynamics damping="0.7" friction="100.0"/>
+    </joint>
+
+    <link name="left_wheel_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder length="0.1" radius="${0.2/2}" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder length="0.1" radius="${0.2/2}" />
+            </geometry>
+        </collision>
+        <xacro:inertial_box length="0.25" width="${0.2/2}" height="${0.2/2}" density="${density_pla}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <!-- RIGHT WHEEL -->
+    <!-- ==================================== -->
+
+    <joint type="continuous" name="right_wheel_joint">
+        <origin xyz="0 -${0.2 + 0.1 / 2} 0.25" rpy="${pi/2} 0 0"/>
+        <child link="right_wheel_link"/>
+        <parent link="mobile_boat_link"/>
+        <axis xyz="0 0 1" rpy="0 0 0"/>
+        <limit effort="1000" velocity="1000"/>
+        <dynamics damping="0.7" friction="100.0"/>
+    </joint>
+
+    <link name="right_wheel_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder length="0.1" radius="${0.2/2}" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder length="0.1" radius="${0.2/2}" />
+            </geometry>
+        </collision>
+        <xacro:inertial_box length="0.25" width="${0.2/2}" height="${0.2/2}" density="${density_pla}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <!-- ARM 1 -->
+    <!-- ==================================== -->
+
+    <joint type="continuous" name="arm_1_joint">
+        <origin xyz="0 0.1 0.2" rpy="${-pi/2} 0 0"/>
+        <child link="arm_1_link"/>
+        <parent link="arm_base_link"/>
+        <axis xyz="0 0 1" rpy="0 0 0"/>
+        <limit effort="1000" velocity="1000"/>
+        <dynamics damping="0.7" friction="100.0"/>
+    </joint>
+
+    <link name="arm_1_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="$(find ELE306Prosjekt)/meshes/Arm1.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 ${-0.5/2} 0" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <cylinder length="0.6" radius="${0.1/2}" />
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder length="0.6" radius="${0.1/2}" density="${density_pla}">
+            <origin xyz="0 ${-0.5/2} 0" rpy="${pi/2} 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <!-- ARM 2 -->
+    <!-- ==================================== -->
+
+    <joint type="continuous" name="arm_2_joint">
+        <origin xyz="0 -0.5 -0.1" rpy="0 0 0"/>
+        <child link="arm_2_link"/>
+        <parent link="arm_1_link"/>
+        <axis xyz="0 0 1" rpy="0 0 0"/>
+        <limit effort="1000" velocity="1000"/>
+        <dynamics damping="0.7" friction="100.0"/>
+    </joint>
+
+    <link name="arm_2_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="$(find ELE306Prosjekt)/meshes/Arm2.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 ${-0.5/2} 0" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <cylinder length="0.6" radius="${0.1/2}" />
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder length="0.6" radius="${0.1/2}" density="${density_pla}">
+            <origin xyz="0 ${-0.5/2} 0" rpy="${pi/2} 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <!-- WRIST JOINT -->
+    <!-- ==================================== -->
+
+    <joint type="continuous" name="wrist_joint_joint">
+        <origin xyz="0 -0.5 0" rpy="0 0 0"/>
+        <child link="wrist_joint_link"/>
+        <parent link="arm_2_link"/>
+        <axis xyz="0 0 1" rpy="0 0 0"/>
+        <limit effort="1000" velocity="1000"/>
+        <dynamics damping="0.7" friction="100.0"/>
+    </joint>
+
+    <link name="wrist_joint_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="$(find ELE306Prosjekt)/meshes/WristJoint.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 ${-0.1/2} 0" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <cylinder length="0.1" radius="${0.1/2}" />
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder length="0.1" radius="${0.1/2}" density="${density_pla}">
+            <origin xyz="0 ${-0.1/2} 0" rpy="${pi/2} 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <!-- GRIPPER -->
+    <!-- ==================================== -->
+
+    <joint type="continuous" name="gripper_joint">
+        <origin xyz="0 -0.1 0" rpy="${pi/2} 0 0"/>
+        <child link="gripper_link"/>
+        <parent link="wrist_joint_link"/>
+        <axis xyz="0 0 1" rpy="0 0 0"/>
+        <limit effort="1000" velocity="1000"/>
+        <dynamics damping="0.7" friction="100.0"/>
+    </joint>
+
+    <link name="gripper_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="$(find ELE306Prosjekt)/meshes/Gripper.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.035" rpy="0 0 0"/>
+            <geometry>
+                <cylinder length="${0.15/2}" radius="${0.09/2}" />
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder length="${0.15/2}" radius="${0.09/2}" density="${density_pla}">
+            <origin xyz="0 ${-0.1/2} 0" rpy="${pi/2} 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+</robot>

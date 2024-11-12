@@ -1,0 +1,233 @@
+<?xml version="1.0"?>
+<robot>
+    <!--
+    BASIC CONTROLLER STRUCTURE:
+
+
+
+    # JOINT REFFERENCES:
+    <gazebo reference="joint_1">
+        <implicitSpringDamper>true</implicitSpringDamper>
+    </gazebo>
+    <gazebo reference="joint_2">
+        <implicitSpringDamper>true</implicitSpringDamper>
+    </gazebo>
+    <gazebo reference="joint_3">
+        <implicitSpringDamper>true</implicitSpringDamper>
+    </gazebo>
+    <...>
+    <gazebo reference="joint_n">
+        <implicitSpringDamper>true</implicitSpringDamper>
+    </gazebo>
+
+
+
+    # PLUGIN REFFERENCES (plugins like differential drive and skid steer drive 
+    can be refferenced or you can make a coustom one using the following plugin refference):
+    <gazebo>
+        <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+            <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
+            <parameters>$(find PACKAGE_NAME)/config/controller_config.yaml</parameters>
+        </plugin>
+    </gazebo>
+
+
+
+    # IF YOU CREATED YOUR OWN CONTROLL USING A .YAML FILE, SPECIFY THE JOINTS LIKE IN THE 
+    # FOLLOWING CODE:
+    <ros2_control name="GazeboSystem" type="system">
+        <hardware>
+            <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+        </hardware>
+
+        <joint name="joint_1">
+            <command_interface name="position">
+                <param name="min">-${pi/2}</param>
+                <param name="max">${pi/2}</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+
+        <joint name="joint_2">
+            <command_interface name="position">
+                <param name="min">-${pi/2}</param>
+                <param name="max">${pi/2}</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+
+        <joint name="joint_3">
+            <command_interface name="position">
+                <param name="min">-${pi/2}</param>
+                <param name="max">${pi/2}</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+
+        <...>
+
+        <joint name="joint_n">
+            <command_interface name="position">
+                <param name="min">-${pi/2}</param>
+                <param name="max">${pi/2}</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+    </ros2_control>
+    
+    -->
+
+
+    <!-- DIFFERENTIAL DRIVE CONTROLL -->
+    <gazebo reference="left_weel_joint">
+        <implicitSpringDamper>true</implicitSpringDamper>
+    </gazebo>
+    <gazebo reference="right_weel_joint">
+        <implicitSpringDamper>true</implicitSpringDamper>
+    </gazebo>
+
+    <gazebo>
+        <plugin name="mobile_base_controller" filename="libgazebo_ros_diff_drive.so">
+            <ros>
+                <!-- <namespace>/demo</namespace>
+
+                <remapping>cmd_vel:=cmd_demo</remapping>
+                <remapping>odom:=odom_demo</remapping> -->
+            </ros>
+
+            <update_rate>100</update_rate>
+
+            <!--1 for differential drive; 2 for skid steer drive-->
+            <num_wheel_pairs>1</num_wheel_pairs>
+
+            <left_joint>left_wheel_joint</left_joint>
+            <right_joint>right_wheel_joint</right_joint>
+
+            <wheel_separation>0.5</wheel_separation>
+
+            <wheel_diameter>0.1</wheel_diameter>
+
+            <max_wheel_torque>50</max_wheel_torque>
+            <max_wheel_acceleration>1.0</max_wheel_acceleration>
+
+            <publish_odom>true</publish_odom>
+            <publish_odom_tf>true</publish_odom_tf>
+            <publish_wheel_tf>false</publish_wheel_tf>
+
+            <odometry_frame>odom</odometry_frame>
+            <robot_base_frame>mobile_base_link</robot_base_frame>
+        </plugin>
+    </gazebo>
+
+
+    <!-- ARM CONTROLL -->
+    <gazebo reference="arm_base_joint">
+        <implicitSpringDamper>true</implicitSpringDamper>
+    </gazebo>
+    <gazebo reference="arm_1_joint">
+        <implicitSpringDamper>true</implicitSpringDamper>
+    </gazebo>
+    <gazebo reference="arm_2_joint">
+        <implicitSpringDamper>true</implicitSpringDamper>
+    </gazebo>
+    <gazebo reference="wrist_joint">
+        <implicitSpringDamper>true</implicitSpringDamper>
+    </gazebo>
+    <gazebo reference="gripper_joint">
+        <implicitSpringDamper>true</implicitSpringDamper>
+    </gazebo>
+    <gazebo reference="left_weel_joint">
+        <implicitSpringDamper>true</implicitSpringDamper>
+    </gazebo>
+    <gazebo reference="right_weel_joint">
+        <implicitSpringDamper>true</implicitSpringDamper>
+    </gazebo>
+
+    <gazebo>
+        <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+            <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
+            <parameters>$(find ELE306Prosjekt)/config/controller_config.yaml</parameters>
+        </plugin>
+    </gazebo>
+
+    <ros2_control name="GazeboSystem" type="system">
+        <hardware>
+            <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+        </hardware>
+
+        <joint name="arm_base_joint">
+            <command_interface name="position">
+                <param name="min">-${pi/2}</param>
+                <param name="max">${pi/2}</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+
+        <joint name="arm_1_joint">
+            <command_interface name="position">
+                <param name="min">-${pi/2}</param>
+                <param name="max">${pi/2}</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+
+        <joint name="arm_2_joint">
+            <command_interface name="position">
+                <param name="min">-${pi/2}</param>
+                <param name="max">${pi/2}</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+
+        <joint name="wrist_joint">
+            <command_interface name="position">
+                <param name="min">-${pi/2}</param>
+                <param name="max">${pi/2}</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+
+        <joint name="gripper_joint">
+            <command_interface name="position">
+                <param name="min">-${pi/2}</param>
+                <param name="max">${pi/2}</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+
+        <!-- GRIPPER CONTROLLS IF IMPLEMENTING LATER ON -->
+        <!-- <joint name="gripper_finger_left_joint">
+            <command_interface name="position"/>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+
+        <joint name="gripper_finger_right_joint">
+            <param name="mimic">gripper_finger_left_joint</param>
+            <param name="multiplier">1</param>
+            <command_interface name="position"/>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint> -->
+    </ros2_control>
+</robot>
