@@ -1,6 +1,6 @@
 controller_manager:
   ros__parameters:
-    update_rate: 1  # H
+    update_rate: 100  # H
 
     # Deffine controller names and types:
     joint_state_broadcaster: 
@@ -20,7 +20,7 @@ arm_controller:
       - arm_base_joint
       - arm_1_joint
       - arm_2_joint
-      - wrist_joint
+      - wrist_joint_joint
       - gripper_joint
 
     command_interfaces:
@@ -29,7 +29,17 @@ arm_controller:
     state_interfaces:
       - position
       - velocity
- 
+
+    # state_publish_rate: 50.0
+    # action_monitor_rate: 20.0
+
+    # allow_partial_joints_goal: false
+    # open_loop_controll: true
+    # constraints:
+    #   topped_velocity_tolerance: 0.01
+    #   goal_time: 0.0
+
+
 # gripper_controller:
 #   ros__parameters:
 #     joints:

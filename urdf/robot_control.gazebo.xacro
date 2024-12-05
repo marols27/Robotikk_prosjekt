@@ -144,17 +144,17 @@
     <gazebo reference="gripper_joint">
         <implicitSpringDamper>true</implicitSpringDamper>
     </gazebo>
-    <gazebo reference="left_weel_joint">
+    <!-- <gazebo reference="left_weel_joint">
         <implicitSpringDamper>true</implicitSpringDamper>
     </gazebo>
     <gazebo reference="right_weel_joint">
         <implicitSpringDamper>true</implicitSpringDamper>
-    </gazebo>
+    </gazebo> -->
 
     <gazebo>
         <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
             <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
-            <parameters>$(find ELE306Prosjekt)/config/controller_config.yaml</parameters>
+            <parameters>$(find robotikk_prosjekt)/config/controller_config.yaml</parameters>
         </plugin>
     </gazebo>
 
@@ -165,8 +165,8 @@
 
         <joint name="arm_base_joint">
             <command_interface name="position">
-                <param name="min">-${pi/2}</param>
-                <param name="max">${pi/2}</param>
+                <param name="min">-${pi}</param>
+                <param name="max">${pi}</param>
             </command_interface>
             <state_interface name="position"/>
             <state_interface name="velocity"/>
@@ -193,7 +193,7 @@
             <state_interface name="effort"/>
         </joint>
 
-        <joint name="wrist_joint">
+        <joint name="wrist_joint_joint">
             <command_interface name="position">
                 <param name="min">-${pi/2}</param>
                 <param name="max">${pi/2}</param>
@@ -205,8 +205,8 @@
 
         <joint name="gripper_joint">
             <command_interface name="position">
-                <param name="min">-${pi/2}</param>
-                <param name="max">${pi/2}</param>
+                <param name="min">-${pi}</param>
+                <param name="max">${pi}</param>
             </command_interface>
             <state_interface name="position"/>
             <state_interface name="velocity"/>
